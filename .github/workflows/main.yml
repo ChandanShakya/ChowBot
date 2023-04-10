@@ -3,7 +3,7 @@ name: CollegeBot
 on:
   schedule:
     - cron: '0 2 * * 1,2,3,4,5' # run the job every weekday at 8am Nepal time
-  workflow_dispatch:
+    workflow_dispatch:
 
 jobs:
   build:
@@ -14,7 +14,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-    - name: Install Python
+      with:
+        ref: v2.4.4
+    - name: Setup Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.8'
@@ -22,3 +24,4 @@ jobs:
       run: pip install python-telegram-bot
     - name: Run bot
       run: python CollegeBot.py
+

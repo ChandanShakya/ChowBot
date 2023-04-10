@@ -33,7 +33,7 @@ def send_reminder(context):
             bot.send_message(chat_id=CHAT_ID, text=text)
 
 # Set up the job queue
-updater = Updater(TOKEN, use_context=True)
+updater = Updater(TOKEN)
 job_queue = updater.job_queue
 
 # Add the job to send the reminder message at 8am Nepal time every weekday

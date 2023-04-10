@@ -2,7 +2,7 @@ name: CollegeBot
 
 on:
   schedule:
-    - cron: '0 8 * * 1,2,3,4,5' # run the job every weekday at 8am
+    - cron: '0 2 * * 1,2,3,4,5' # run the job every weekday at 8am Nepal time
 
 jobs:
   build:

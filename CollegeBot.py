@@ -26,7 +26,7 @@ def is_lab_day(day, lab_days):
 
 # Define a function to send the reminder message
 def send_reminder(context):
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=5, minutes=45)
     for lab, days in labs.items():
         if is_lab_day(now, days):
             text = message.format(lab)
@@ -36,8 +36,8 @@ def send_reminder(context):
 updater = Updater(TOKEN, use_context=True)
 job_queue = updater.job_queue
 
-# Add the job to send the reminder message at 8am every day
-job = job_queue.run_daily(send_reminder, time=datetime.time(hour=8))
+# Add the job to send the reminder message at 8am Nepal time every weekday
+job = job_queue.run_daily(send_reminder, time=datetime.time(hour=2, minute=45), days=(0, 1, 2, 3, 4))
 
 # Start the bot
 updater.start_polling()

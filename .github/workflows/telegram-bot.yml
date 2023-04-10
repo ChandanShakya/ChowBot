@@ -1,0 +1,23 @@
+name: CollegeBot
+
+on:
+  schedule:
+    - cron: '0 8 * * 1,2,3,4,5' # run the job every weekday at 8am
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      CHAT_ID: ${{ secrets.CHAT_ID }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Install Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: Install dependencies
+      run: pip install python-telegram-bot
+    - name: Run bot
+      run: python CollegeBot.py

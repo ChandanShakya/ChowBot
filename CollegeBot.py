@@ -1,29 +1,43 @@
 import datetime
+import time
 import telegram
+import os
+from telegram.ext import Updater, CommandHandler
 
-# Replace with your bot token and group chat ID
-BOT_TOKEN = 'your_bot_token'
-CHAT_ID = 'your_chat_id'
+# set up the bot
+TOKEN = os.environ.get('BOT_TOKEN')
+CHAT_ID = os.environ.get('CHAT_ID')
+bot = telegram.Bot(token=TOKEN)
 
-# Create a Telegram bot object
-bot = telegram.Bot(token=BOT_TOKEN)
+# define the labs and their corresponding days
+labs = {
+    'Network Programming Lab': [4],
+    'Advance Java Programming Lab': [2, 4],
+    'Mobile Programming Lab': [1, 3]
+}
 
-# Get the current day of the week and time
-today = datetime.datetime.today()
-weekday = today.weekday()
-time = today.time()
+# define the message to be sent
+message = "Reminder: {} today at 8am."
 
-# Send a message if today is Friday at 8am
-if weekday == 4 and time.hour == 8:
-    message = 'Reminder: Network Programming Lab today!'
-    bot.send_message(chat_id=CHAT_ID, text=message)
+# define a function to check if today is a lab day
+def is_lab_day(day, lab):
+    return day.weekday() in lab
 
-# Send a message if today is Tuesday or Friday at 8am
-if (weekday == 1 or weekday == 4) and time.hour == 8:
-    message = 'Reminder: Advance Java Programming Lab today!'
-    bot.send_message(chat_id=CHAT_ID, text=message)
+# define a function to send the reminder message
+def send_reminder(context):
+    now = datetime.datetime.now()
+    for lab, days in labs.items():
+        if is_lab_day(now, days):
+            text = message.format(lab)
+            bot.send_message(chat_id=CHAT_ID, text=text)
 
-# Send a message if today is Monday or Thursday at 8am
-if (weekday == 0 or weekday == 3) and time.hour == 8:
-    message = 'Reminder: Mobile Programming Lab today!'
-    bot.send_message(chat_id=CHAT_ID, text=message)
+# set up the job queue
+updater = Updater(TOKEN, use_context=True)
+job_queue = updater.job_queue
+
+# add the job to send the reminder message at 8am every day
+job = job_queue.run_daily(send_reminder, time=datetime.time(hour=8))
+
+# start the bot
+updater.start_polling()
+updater.idle()

@@ -3,6 +3,7 @@ name: CollegeBot
 on:
   schedule:
     - cron: '0 2 * * 1,2,3,4,5' # run the job every weekday at 8am Nepal time
+  workflow_dispatch:
 
 jobs:
   build:

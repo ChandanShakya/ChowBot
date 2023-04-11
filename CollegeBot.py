@@ -13,8 +13,9 @@ bot = telegram.Bot(token=TOKEN)
 # Define the labs and their corresponding days
 labs = {
     'Network Programming Lab': [4],
-    'Advance Java Programming Lab': [2, 4],
-    'Mobile Programming Lab': [1, 3]
+    'Advance Java Programming Lab': [0, 1, 2, 3, 4, 6]
+    #'Advance Java Programming Lab': [2, 4],
+    #'Mobile Programming Lab': [1, 3]
 }
 
 # Define the message to be sent
@@ -37,7 +38,7 @@ updater = Updater(TOKEN, use_context=True)
 job_queue = updater.job_queue
 
 # Add the job to send the reminder message at 8am Nepal time every weekday
-job = job_queue.run_daily(send_reminder, time=datetime.time(hour=2, minute=45), days=(0, 1, 2, 3, 4))
+job = job_queue.run_daily(send_reminder, time=datetime.time(hour=2, minute=45), days=(0, 1, 2, 3, 4, 6))
 
 # Start the bot
 updater.start_polling()

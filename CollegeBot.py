@@ -13,9 +13,8 @@ bot = telegram.Bot(token=TOKEN)
 # Define the labs and their corresponding days
 labs = {
     'Network Programming Lab': [4],
-    'Advance Java Programming Lab': [0, 1, 2, 3, 4, 6]
-    #'Advance Java Programming Lab': [2, 4],
-    #'Mobile Programming Lab': [1, 3]
+    'Advance Java Programming Lab': [2, 4],
+    'Mobile Programming Lab': [1, 3]
 }
 
 # Define the message to be sent

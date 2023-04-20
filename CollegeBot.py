@@ -13,8 +13,8 @@ bot = telegram.Bot(token=TOKEN)
 # Define the labs and their corresponding days
 labs = {
     'Network Programming Lab': [4],
-    'Advance Java Programming Lab': [2, 4],
-    'Mobile Programming Lab': [1, 3]
+    'Advance Java Programming Lab': [1, 4],
+    'Mobile Programming Lab': [0, 3]
 }
 
 # Define the message to be sent
@@ -28,7 +28,9 @@ def is_lab_day(day, lab_days):
 def send_reminder(context):
     now = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=5, minutes=45)
     for lab, days in labs.items():
-        if is_lab_day(now, days):
+        if lab == 'Mobile Programming Lab' and now.weekday() not in days:
+            continue
+        elif is_lab_day(now, days):
             text = message.format(lab)
             bot.send_message(chat_id=CHAT_ID, text=text)
 
